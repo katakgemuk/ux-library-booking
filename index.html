@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Perpustakaan Seri Kenyalang</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: #eef2f7;
+}
+
+/* NAVBAR */
+.header-bar {
+    display: flex;
+    align-items: center;
+    background: #2c3e50;
+    padding: 15px 30px;
+    color: white;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* CENTER NAV */
+.nav-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.nav-center button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    background: #4ca1af;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.nav-center button:hover {
+    background: #6dd5ed;
+    transform: scale(1.05);
+}
+
+/* PAGE */
+.page { display: none; }
+.active { display: block; }
+
+.container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* ROOM GRID */
+.rooms {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.room {
+    text-align: center;
+    padding: 15px;
+    border-radius: 12px;
+    background: #f8f9fa;
+    transition: 0.3s;
+}
+
+/* STATUS COLOR */
+.room.available {
+    background: #d4edda;
+}
+
+.room.booked {
+    background: #f8d7da;
+}
+
+.room:hover {
+    transform: translateY(-5px);
+}
+
+.room img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #4ca1af;
+    color: white;
+    cursor: pointer;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+/* POPUP */
+.modal {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    position: fixed;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+    border-radius: 10px;
+    animation: slideDown 0.3s ease;
+}
+
+/* ========================= */
+/* 🔥 RESPONSIVE TAMBAHAN */
+/* ========================= */
+
+/* Tablet */
+@media (max-width: 900px) {
+    .rooms {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .container {
+        padding: 15px;
+    }
+}
+
+/* Phone */
+@media (max-width: 600px) {
+
+    .header-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .nav-center {
+        width: 100%;
+        justify-content: space-around;
+    }
+
+    .rooms {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .modal-content {
+        width: 90%;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* ========================= */
+
+@keyframes slideDown {
+    from {
+        transform: translate(-50%, -50px);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="header-bar">
+    <div class="logo">📚 Seri Kenyalang</div>
+
+    <div class="nav-center">
+        <button onclick="showPage('home')">Home</button>
+        <button onclick="showPage('booking')">Booking</button>
+        <button onclick="showPage('contact')">Contact</button>
+    </div>
+</div>
+
+<!-- HOME -->
+<div id="home" class="page active">
+<div class="container">
+<div class="card">
+<center>
+<img src="home.jpg" width="50%">
+</center>
+</div>
+<div class="card">
+<h2>About Library</h2>
+<p>Perpustakaan Seri Kenyalang is located at Politeknik Kuching Sarawak.  
+It provides study spaces, discussion rooms, and digital resources for students.  
+The library supports academic learning with a comfortable and modern environment</p>
+</div>
+</div>
+</div>
+
+<!-- BOOKING -->
+<div id="booking" class="page">
+<div class="container">
+
+<div class="card">
+<h2>Choose Room</h2>
+<div class="rooms">
+
+<div class="room" id="Room A">
+<img src="roomA.jpg" onclick="selectRoom('Room A')">
+<p>Room A</p>
+<span id="statusA">Available</span>
+</div>
+
+<div class="room" id="Room B">
+<img src="roomB.jpg" onclick="selectRoom('Room B')">
+<p>Room B</p>
+<span id="statusB">Available</span>
+</div>
+
+<div class="room" id="Room C">
+<img src="roomC.jpg" onclick="selectRoom('Room C')">
+<p>Room C</p>
+<span id="statusC">Available</span>
+</div>
+
+</div>
+</div>
+
+<div class="card" id="bookingForm">
+<h2>Make Booking</h2>
+<form onsubmit="return addBooking(event)">
+<input type="text" id="name" placeholder="Name" required>
+<input type="date" id="date" required>
+<input type="time" id="time" required>
+
+<select id="room">
+<option>Room A</option>
+<option>Room B</option>
+<option>Room C</option>
+</select>
+
+<button type="submit">Confirm</button>
+</form>
+</div>
+
+<div class="card" id="bookingList"></div>
+
+</div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="page">
+<div class="container">
+
+<div class="card">
+<h2>Contact</h2>
+<p>📧 Email: library@pks.edu.my</p>
+<p>📞 Phone: 082-123456</p>
+</div>
+
+<div class="card">
+<h2>Report Issue</h2>
+<form onsubmit="submitReport(event)">
+<input type="text" placeholder="Name" required>
+<textarea placeholder="Write here..." required></textarea>
+<button>Submit</button>
+</form>
+</div>
+
+</div>
+</div>
+
+<!-- POPUP -->
+<div class="modal" id="popup">
+<div class="modal-content">
+<p id="popupText"></p>
+<button onclick="closePopup()">OK</button>
+</div>
+</div>
+
+<script>
+let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+
+function showPage(page){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(page).classList.add("active");
+}
+
+function selectRoom(room){
+ document.getElementById("room").value = room;
+ document.getElementById("bookingForm").scrollIntoView({behavior: "smooth"});
+}
+
+function addBooking(e){
+ e.preventDefault();
+
+ let name = document.getElementById("name").value;
+ let date = document.getElementById("date").value;
+ let time = document.getElementById("time").value;
+ let room = document.getElementById("room").value;
+
+ if(bookings.find(b=>b.room===room && b.date===date && b.time===time)){
+  showPopup("❌ Slot already booked!");
+  return false;
+ }
+
+ bookings.push({name,date,time,room});
+ localStorage.setItem("bookings", JSON.stringify(bookings));
+
+ displayBookings();
+ updateRooms();
+ showPopup("✅ Booking Successful!");
+}
+
+function displayBookings(){
+ let html="<h2>Your Bookings</h2>";
+ bookings.forEach((b,i)=>{
+  html+=`<div class="card">
+  <p>${b.room} | ${b.date} | ${b.time} | ${b.name}</p>
+  <button onclick="editBooking(${i})">Edit</button>
+  <button onclick="deleteBooking(${i})" style="background:red;">Delete</button>
+  </div>`;
+ });
+ document.getElementById("bookingList").innerHTML=html;
+}
+
+function deleteBooking(i){
+ bookings.splice(i,1);
+ localStorage.setItem("bookings", JSON.stringify(bookings));
+ displayBookings(); updateRooms();
+ showPopup("❌ Cancelled");
+}
+
+function editBooking(i){
+ let b = bookings[i];
+
+ let name = prompt("Name:", b.name);
+ let date = prompt("Date (YYYY-MM-DD):", b.date);
+ let time = prompt("Time (HH:MM):", b.time);
+ let room = prompt("Room (Room A / Room B / Room C):", b.room);
+
+ if(name && date && time && room){
+
+  if(bookings.find((bk,index)=> 
+     index !== i && bk.room===room && bk.date===date && bk.time===time)){
+    showPopup("❌ Slot already booked!");
+    return;
+  }
+
+  bookings[i] = {name, date, time, room};
+
+  localStorage.setItem("bookings", JSON.stringify(bookings));
+  displayBookings();
+  updateRooms();
+
+  showPopup("✏️ Booking Updated!");
+ }
+}
+
+function updateRooms(){
+ ["Room A","Room B","Room C"].forEach(r=>{
+  let booked=bookings.find(b=>b.room===r);
+  let roomDiv = document.getElementById(r);
+
+  document.getElementById("status"+r.split(" ")[1]).innerText=booked?"Booked":"Available";
+
+  roomDiv.classList.remove("available","booked");
+
+  if(booked){
+    roomDiv.classList.add("booked");
+  } else {
+    roomDiv.classList.add("available");
+  }
+ });
+}
+
+function showPopup(msg){
+ document.getElementById("popupText").innerText=msg;
+ document.getElementById("popup").style.display="block";
+}
+
+function closePopup(){
+ document.getElementById("popup").style.display="none";
+}
+
+function submitReport(e){
+ e.preventDefault();
+ showPopup("📩 Report Submitted!");
+}
+
+displayBookings();
+updateRooms();
+</script>
+
+</body>
+</html>
